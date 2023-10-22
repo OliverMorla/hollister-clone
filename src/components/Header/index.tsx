@@ -1,54 +1,8 @@
-import { faHeart, faUser } from "@fortawesome/free-regular-svg-icons";
-import {
-  faSearch,
-  faFlagUsa,
-  faShoppingBag,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-
-const LeftSideNavItems = [
-  {
-    name: "Women's",
-    href: "/shop/women",
-  },
-  {
-    name: "Men's",
-    href: "/shop/men",
-  },
-  {
-    name: "Jeans",
-    href: "/shop/jeans",
-  },
-  {
-    name: "Activewear",
-    href: "/shop/activewear",
-  },
-  {
-    name: "Sale",
-    href: "/shop/sale",
-  },
-  {
-    name: "Purpose",
-    href: "/shop/purpose",
-  },
-];
-
-const RightSideNavItems = [
-  {
-    name: faSearch,
-  },
-  {
-    name: faFlagUsa,
-  },
-  {
-    name: faHeart,
-  },
-  {
-    name: faShoppingBag,
-  },
-];
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { RightSideNavItems, LeftSideNavItems } from "@/config/props-local";
 
 const Header = () => {
   return (
@@ -73,10 +27,12 @@ const Header = () => {
         </ul>
         <ul className="">
           <li>
-            <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
-              <FontAwesomeIcon icon={faUser} height={15} width={15} /> Sign In
-              Or Join
-            </button>
+            <Link href={"/api/auth/login"}>
+              <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
+                <FontAwesomeIcon icon={faUser} height={15} width={15} /> Sign In
+                Or Join
+              </button>
+            </Link>
           </li>
         </ul>
       </section>
@@ -84,13 +40,15 @@ const Header = () => {
         <section className="flex h-[75px] justify-between max-w-[1568px] w-full mx-auto">
           <ul className="flex list-none items-center font-bold gap-4 ml-8">
             <li>
-              <Image
-                src={"/assets/logos/logo-4.webp"}
-                width={85}
-                height={50}
-                className="object-contain"
-                alt="logo"
-              />
+              <Link href={"/"}>
+                <Image
+                  src={"/assets/logos/logo-4.webp"}
+                  width={85}
+                  height={50}
+                  className="object-contain"
+                  alt="logo"
+                />
+              </Link>
             </li>
             {LeftSideNavItems.map((item, index) => (
               <li key={index} className="text-xs">

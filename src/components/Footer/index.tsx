@@ -1,32 +1,8 @@
-import {
-  faFacebook,
-  faInstagram,
-  faPinterest,
-  faTwitter,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
 import { faGift, faMapPin } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SocialMediaIcons } from "@/config/props-local";
 import Image from "next/image";
 import Link from "next/link";
-
-const SocialMediaIcons = [
-  {
-    name: faFacebook,
-  },
-  {
-    name: faTwitter,
-  },
-  {
-    name: faPinterest,
-  },
-  {
-    name: faInstagram,
-  },
-  {
-    name: faYoutube,
-  },
-];
 
 const Footer = () => {
   return (
@@ -133,8 +109,13 @@ const Footer = () => {
             Facebook, Twitter & More.
           </li>
           <li className="flex justify-between opacity-80 mt-6">
-            {SocialMediaIcons.map((icon) => (
-              <FontAwesomeIcon icon={icon.name} width={20} height={20} />
+            {SocialMediaIcons.map((icon, index) => (
+              <FontAwesomeIcon
+                icon={icon.name}
+                key={index}
+                width={20}
+                height={20}
+              />
             ))}
           </li>
         </ul>
