@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { RightSideNavItems, LeftSideNavItems } from "@/config/props-local";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Header = () => {
+  const { user, error, isLoading } = useUser();
+  console.log(user);
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -27,12 +32,13 @@ const Header = () => {
         </ul>
         <ul className="">
           <li>
-            <Link href={"/api/auth/login"}>
+            <a href={user ? "/" : "/api/auth/login"}>
               <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
-                <FontAwesomeIcon icon={faUser} height={15} width={15} /> Sign In
-                Or Join
+                <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
+                {user ? user.name : "Sign in Or Join"}
               </button>
-            </Link>
+            </a>
+
           </li>
         </ul>
       </section>

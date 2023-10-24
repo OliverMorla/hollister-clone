@@ -1,3 +1,6 @@
+"use client"
+
+import PaymentForm from "@/components/PaymentForm";
 import { client } from "../../../../../../sanity/lib/client";
 import "./page.scss";
 const Product = ({
@@ -18,7 +21,9 @@ const Product = ({
     <main className="product">
       <section className="product__content">
         <section className="product__images"></section>
-        <section className="product__options"></section>
+        <section className="product__options">
+            <PaymentForm />
+        </section>
       </section>
       <section className="product__recommendations"></section>
       <section className="product__reviews"></section>

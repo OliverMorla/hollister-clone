@@ -3,7 +3,7 @@
 .shop {
   display: flex;
   max-width: 1568px;
-  margin: 0 auto;
+  margin: 20px auto;
   .shop__left-panel {
     display: flex;
     flex-direction: column;
@@ -14,20 +14,45 @@
       gap: 10px;
       .shop__left-panel__list-item {
         opacity: 0.8;
+        font-size: x-small;
+        transition: all 0.15s ease-in-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
         a {
         }
       }
     }
 
     .shop__left-panel__list-2 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       .shop__left-panel__list-item {
+        font-size: x-small;
+        transition: all 0.15s ease-in-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
         a {
         }
       }
     }
 
     .shop__left-panel__list-3 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       .shop__left-panel__list-item {
+        font-size: x-small;
+        transition: all 0.15s ease-in-out;
+
+        &:hover {
+          transform: scale(1.1);
+        }
         a {
         }
       }
@@ -46,11 +71,38 @@
         }
       }
     }
+
     .shop__content-body {
       display: flex;
       gap: 14px;
       margin-left: 40px;
       flex-flow: row wrap;
+    }
+
+    .shop__content-footer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .shop__content-footer__page-btn {
+        display: flex;
+        gap: 20px;
+        .shop__content-footer__arrow {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      .shop__content-footer__notes {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        font-size: x-small;
+        gap: 10px;
+      }
     }
   }
 }

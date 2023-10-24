@@ -28,12 +28,30 @@ export default {
       name: "gender",
       type: "array",
       of: [{ type: "string" }],
-      options: { 
-          list: [
-            {title: "Male", value: "male"},
-            {title: "Female", value: "female"}
-          ]
-      }
-    }
+      options: {
+        list: [
+          { title: "Male", value: "male" },
+          { title: "Female", value: "female" },
+        ],
+      },
+    },
+    {
+      name: "category",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Shirts", value: "shirts" },
+          { title: "Pants", value: "pants" },
+          { title: "Shoes", value: "shoes" },
+          { title: "Accessories", value: "accessories" },
+        ],
+      },
+    },
+    {
+      name: "image",
+      type: "array",
+      of: [{ type: "image" }],
+    },
   ],
 };
