@@ -9,7 +9,6 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Header = () => {
   const { user, error, isLoading } = useUser();
-  console.log(user);
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -32,7 +31,7 @@ const Header = () => {
         </ul>
         <ul className="">
           <li>
-            <a href={user ? "/" : "/api/auth/login"}>
+            <a href={user ? "/" : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`}>
               <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
                 <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
                 {user ? user.name : "Sign in Or Join"}
