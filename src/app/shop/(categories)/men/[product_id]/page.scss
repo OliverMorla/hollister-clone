@@ -1,4 +1,35 @@
 @import "@/styles/mixins.scss";
 
 .product {
+  display: flex;
+  flex-direction: column;
+  max-width: 1568px;
+  margin: 0 auto;
+  .product__content {
+    display: flex;
+    gap: 25px;
+    .product__images {
+      display: flex;
+      gap: 10px;
+      .product__image {
+      }
+    }
+    .product__options {
+      .product__name {
+        font-weight: bolder;
+        font-size: 1.4rem;
+        letter-spacing: -1px;
+      }
+
+      .product__price {
+        font-size: 1.2rem;
+        font-weight: 500;
+        letter-spacing: -1px;
+      }
+    }
+  }
+  .product__recommendations {
+  }
+  .product__reviews {
+  }
 }

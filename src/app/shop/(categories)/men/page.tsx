@@ -2,7 +2,7 @@
 "use client";
 import "./page.scss";
 import Link from "next/link";
-import { Products } from "@/config/props-local";
+// import { Products } from "@/config/props-local";
 import ProductCard from "@/components/Product/Card";
 import { client } from "../../../../../sanity/lib/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,11 +13,23 @@ import {
 import { useEffect, useState } from "react";
 
 const Men = () => {
-  const [products, setProducts] = useState([]);
-  
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
+
   const getProducts = async () => {
     const fetchedProducts = await client.fetch(
-      `*[_type == "product" && gender[0] == "male"]`
+      `*[_type=="product"]{
+        _id,
+          name,
+          isNew,
+          isPopular,
+          category,
+          price,
+          _createdAt,
+          _type,
+          gender,
+        "primaryImageUrl": image[0].asset->url,
+        "secondaryImageUrl": image[1].asset->url
+    }`
     );
     setProducts(fetchedProducts);
   };
@@ -103,20 +115,22 @@ const Men = () => {
           </select>
         </section>
         <section className="shop__content-body">
-          {Products.map((product) => {
-            if (product.gender === "Male") {
+          {products.map((product) => {
+            if (product.gender[0] == "male") {
               return (
-                <Link href={`/shop/men/${product.id}`} key={product.id}>
+                <Link href={`/shop/men/${product._id}`} key={product._id}>
                   <ProductCard
-                    id={product.id}
-                    product_name={product.product_name}
+                    _id={product._id}
+                    name={product.name}
                     category={product.category}
                     isNew={product.isNew}
                     isPopular={product.isPopular}
                     gender={product.gender}
                     price={product.price}
-                    primary_image={product.primary_src}
-                    secondary_image={product.secondary_src}
+                    primaryImageUrl={product.primaryImageUrl}
+                    secondaryImageUrl={product.secondaryImageUrl}
+                    _type={product._type}
+                    _createdAt={product._createdAt}
                   />
                 </Link>
               );

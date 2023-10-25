@@ -1,16 +1,42 @@
 /* eslint-disable react/no-unescaped-entities */
-import "./page.scss";
-import Link from "next/link";
-import { Products } from "@/config/props-local";
-import ProductCard from "@/components/Product/Card";
+"use client";
+import { client } from "../../../../../sanity/lib/client";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faChevronCircleLeft,
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import ProductCard from "@/components/Product/Card";
+import "./page.scss";
 
 const Women = () => {
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
+
+  const getProducts = async () => {
+    const fetchedProducts = await client.fetch(
+      `*[_type=="product"]{
+        _id,
+          name,
+          isNew,
+          isPopular,
+          category,
+          price,
+          _createdAt,
+          _type,
+          gender,
+        "primaryImageUrl": image[0].asset->url,
+        "secondaryImageUrl": image[1].asset->url
+    }`
+    );
+    setProducts(fetchedProducts);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <main className="shop">
       <aside className="shop__left-panel">
@@ -47,7 +73,13 @@ const Women = () => {
           </li>
         </ul>
         <ul className="shop__left-panel__list-2">
-          <title>Collections</title>
+          <h2
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            Collections
+          </h2>
           <li className="shop__left-panel__list-item">
             <Link href={""}>Multipacks</Link>
           </li>
@@ -80,20 +112,22 @@ const Women = () => {
           </select>
         </section>
         <section className="shop__content-body">
-          {Products.map((product) => {
-            if (product.gender === "Female") {
+          {products.map((product) => {
+            if (product.gender[0] == "female") {
               return (
-                <Link href={`/shop/women/${product.id}`} key={product.id}>
+                <Link href={`/shop/women/${product._id}`} key={product._id}>
                   <ProductCard
-                    id={product.id}
-                    product_name={product.product_name}
+                    _id={product._id}
+                    name={product.name}
                     category={product.category}
                     isNew={product.isNew}
                     isPopular={product.isPopular}
                     gender={product.gender}
                     price={product.price}
-                    primary_image={product.primary_src}
-                    secondary_image={product.secondary_src}
+                    primaryImageUrl={product.primaryImageUrl}
+                    secondaryImageUrl={product.secondaryImageUrl}
+                    _type={product._type}
+                    _createdAt={product._createdAt}
                   />
                 </Link>
               );
@@ -123,22 +157,22 @@ const Women = () => {
           <section className="shop__content-footer__notes">
             <h1 className="font-bold text-base">CLOTHING FOR WOMEN</h1>
             <p>
-              Hollister clothing for men is designed with comfort, quality, and
-              style in mind. Whether you're getting active at the gym or gearing
-              up for a night out, we've got the look for you.
+              Hollister clothing for Women is designed with comfort, quality,
+              and style in mind. Whether you're getting active at the gym or
+              gearing up for a night out, we've got the look for you.
             </p>
             <p>
-              Hollister clothing for men is designed with comfort, quality, and
-              style in mind. Whether you're getting active at the gym or gearing
-              up for a night out, we've got the look for you.
+              Hollister clothing for Women is designed with comfort, quality,
+              and style in mind. Whether you're getting active at the gym or
+              gearing up for a night out, we've got the look for you.
             </p>
             <p>
               And when the temperature drops, we've got your covered with the
-              latest on-trend men's jackets & coats. We are all about layers and
-              our hoodies over a basic tee is a classic look. Pair it with some
-              men's jeans and you're ready for a stylish, all day comfortable
-              outfit. For a dressier look, a polo with a pair of pants is the
-              way to go.
+              latest on-trend Women's jackets & coats. We are all about layers
+              and our hoodies over a basic tee is a classic look. Pair it with
+              some Women's jeans and you're ready for a stylish, all day
+              comfortable outfit. For a dressier look, a polo with a pair of
+              pants is the way to go.
             </p>
           </section>
         </section>

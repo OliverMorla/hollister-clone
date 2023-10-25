@@ -7,6 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  const { name, price, quantity } = await req.json();
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -15,11 +17,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: "Sample Product",
+              name: name,
+              description: "A product description",
             },
-            unit_amount: 1000,
+            unit_amount: price * 100,
           },
-          quantity: 1,
+          quantity: quantity,
         },
       ],
       mode: "payment",
