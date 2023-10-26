@@ -46,6 +46,7 @@ const Header = () => {
                 {user ? user.name : "Sign in Or Join"}
               </button>
             </a>
+            {user && <a  href="/api/auth/logout">Log Out</a>}
           </li>
         </ul>
       </section>
