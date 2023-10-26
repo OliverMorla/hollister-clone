@@ -2,13 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RightSideNavItems, LeftSideNavItems } from "@/config/props-local";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Cart from "../Cart";
+import { motion } from "framer-motion";
+import { fadeVariant1 } from "@/config/framer-animations";
 
 const Header = () => {
   const { user, error, isLoading } = useUser();
+  const [openCart, setOpenCart] = useState(false);
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -31,13 +36,16 @@ const Header = () => {
         </ul>
         <ul className="">
           <li>
-            <a href={user ? "/" : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`}>
+            <a
+              href={
+                user ? "/" : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`
+              }
+            >
               <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
                 <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
                 {user ? user.name : "Sign in Or Join"}
               </button>
             </a>
-
           </li>
         </ul>
       </section>
@@ -69,12 +77,25 @@ const Header = () => {
                 <FontAwesomeIcon
                   icon={item.name}
                   className="text-black w-4 cursor-pointer"
+                  onClick={() => {
+                    if (item.type == "cart") setOpenCart(!openCart);
+                  }}
                 />
               </li>
             ))}
           </ul>
         </section>
       </section>
+
+      {openCart && (
+        <motion.aside
+          variants={fadeVariant1}
+          initial="hidden"
+          animate="visible"
+        >
+          <Cart />
+        </motion.aside>
+      )}
     </header>
   );
 };

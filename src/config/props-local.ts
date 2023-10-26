@@ -105,6 +105,7 @@ const RightSideNavItems = [
   },
   {
     name: faShoppingBag,
+    type: "cart",
   },
 ];
 

@@ -1,35 +1,35 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import "./page.scss";
 import Link from "next/link";
-// import { Products } from "@/config/props-local";
-import ProductCard from "@/components/Product/Card";
+import { useEffect, useState } from "react";
 import { client } from "../../../../../sanity/lib/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronCircleLeft,
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import ProductCard from "@/components/Product/Card";
+import "./page.scss";
 
 const Men = () => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
-
   const getProducts = async () => {
     const fetchedProducts = await client.fetch(
-      `*[_type=="product"]{
+      `
+      *[_type=="product"]{
         _id,
-          name,
-          isNew,
-          isPopular,
-          category,
-          price,
-          _createdAt,
-          _type,
-          gender,
+        name,
+        isNew,
+        isPopular,
+        category,
+        price,
+        _createdAt,
+        _type,
+        gender,
         "primaryImageUrl": image[0].asset->url,
         "secondaryImageUrl": image[1].asset->url
-    }`
+      }
+    `
     );
     setProducts(fetchedProducts);
   };
@@ -37,8 +37,6 @@ const Men = () => {
   useEffect(() => {
     getProducts();
   }, []);
-
-  console.log(products);
 
   return (
     <main className="shop">

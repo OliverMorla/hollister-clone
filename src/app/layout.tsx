@@ -1,11 +1,17 @@
-import { Noto_Sans } from "next/font/google";
 import { Metadata } from "next";
+import { Suspense } from "react";
+import { Noto_Sans } from "next/font/google";
+
+import { UserProvider } from "@auth0/nextjs-auth0/client";
+import CartProvider from "@/providers/cart-provider";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import "./globals.css";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import Loading from "@/components/Loading";
 
-const inter = Noto_Sans({
+import "./globals.css";
+
+const NotoSans = Noto_Sans({
   style: "normal",
   display: "swap",
   preload: false,
@@ -24,11 +30,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <UserProvider>
-        <body className={inter.className}>
-          <Header />
-          {children}
-          <Footer />
-        </body>
+        <CartProvider>
+            <body className={NotoSans.className}>
+              <Header />
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <Footer />
+            </body>
+        </CartProvider>
       </UserProvider>
     </html>
   );

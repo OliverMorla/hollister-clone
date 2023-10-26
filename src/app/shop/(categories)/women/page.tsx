@@ -18,14 +18,14 @@ const Women = () => {
     const fetchedProducts = await client.fetch(
       `*[_type=="product"]{
         _id,
-          name,
-          isNew,
-          isPopular,
-          category,
-          price,
-          _createdAt,
-          _type,
-          gender,
+        name,
+        isNew,
+        isPopular,
+        category,
+        price,
+        _createdAt,
+        _type,
+        gender,
         "primaryImageUrl": image[0].asset->url,
         "secondaryImageUrl": image[1].asset->url
     }`

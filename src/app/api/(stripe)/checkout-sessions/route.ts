@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const { name, price, quantity } = await req.json();
+  const { name, price, quantity, size } = await req.json();
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -18,7 +18,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
             currency: "usd",
             product_data: {
               name: name,
-              description: "A product description",
+              description: `${name} - Size: ${size}`,
+              metadata: {
+                size: size,
+                name: name,
+                quantity: quantity,
+                price: price,
+              },
             },
             unit_amount: price * 100,
           },
@@ -27,7 +33,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       ],
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/cancel`,
+      cancel_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment/failed`,
     });
 
     return NextResponse.json({ ok: true, sessionId: session.id });

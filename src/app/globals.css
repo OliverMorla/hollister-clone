@@ -44,7 +44,6 @@ html,
 body {
   display: flex;
   flex-direction: column;
-  scroll-snap-type: y proximity;
   height: 100%;
   gap: 10px;
 }

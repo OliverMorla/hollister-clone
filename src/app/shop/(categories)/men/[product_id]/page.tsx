@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { client } from "../../../../../../sanity/lib/client";
 import { useState, useEffect } from "react";
+import { addToCart, removeFromCart } from "@/redux/slices/cart-slice";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import Loading from "@/components/Loading";
 import "./page.scss";
@@ -15,7 +17,8 @@ const Product = ({
     product_id: string;
   };
 }) => {
-  const [product, setProduct] = useState<ProductProps>();
+  const cartDispatch = useDispatch();
+  const [product, setProduct] = useState<ProductProps | undefined>(undefined);
   const [productOptions, setProductOptions] = useState({
     quantity: 1,
     size: "S",
@@ -43,9 +46,27 @@ const Product = ({
   useEffect(() => {
     getProduct();
   }, []);
-  console.log(product);
-  console.log(product_id);
-  console.log(productOptions);
+
+  const currentCart = useSelector((state: any) => state.cartReducer.items);
+
+  const handleCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (e.currentTarget.name === "add-to-cart" && product) {
+      cartDispatch(
+        addToCart({
+          id: product._id as string,
+          name: product.name,
+          price: product.price,
+          quantity: productOptions.quantity,
+          size: productOptions.size,
+          cartPhoto: product.primaryImageUrl,
+        })
+      );
+    } else if (e.currentTarget.name === "remove-from-cart" && product) {
+      cartDispatch(removeFromCart({ id: product._id as string }));
+    }
+  };
 
   if (product) {
     return (
@@ -103,7 +124,11 @@ const Product = ({
                   quantity={productOptions.quantity}
                   size={productOptions.size}
                 />
-                <button className="bg-[--blue-light] p-4 text-white rounded-3xl">
+                <button
+                  className="bg-[--blue-light] p-4 text-white rounded-3xl"
+                  onClick={(e) => handleCart(e)}
+                  name="add-to-cart"
+                >
                   <FontAwesomeIcon
                     icon={faShoppingBag}
                     width={25}

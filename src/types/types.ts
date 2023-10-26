@@ -13,3 +13,18 @@ interface ProductCardProps {
 }
 
 interface ProductProps extends ProductCardProps {}
+
+interface CartProps {
+  items: ProductCardProps[];
+  totalQuantity: number;
+  changed: boolean;
+}
+
+interface CartItemsProps {
+  id: string,
+  price: number,
+  name: string,
+  quantity: number,
+  size: string,
+  cartPhoto: string,
+}
