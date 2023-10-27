@@ -3,13 +3,13 @@ import { Suspense } from "react";
 import { Noto_Sans } from "next/font/google";
 
 import CartProvider from "@/providers/cart-provider";
+import AuthProvider from "@/providers/auth-provider";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 
 import "./globals.css";
-import AuthProvider from "@/providers/auth-provider";
 
 const NotoSans = Noto_Sans({
   style: "normal",

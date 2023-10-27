@@ -22,7 +22,7 @@ const Products = [
     price: 299.99,
     gender: "Male",
     primary_src: "/assets/products/product-2.webp",
-    secondary_src: "/assets/products/product-2-secondary.webp"
+    secondary_src: "/assets/products/product-2-secondary.webp",
   },
   {
     id: "2",
@@ -33,7 +33,7 @@ const Products = [
     price: 99.99,
     gender: "Male",
     primary_src: "/assets/products/product-1.webp",
-    secondary_src: "/assets/products/product-1-secondary.webp"
+    secondary_src: "/assets/products/product-1-secondary.webp",
   },
   {
     id: "3",
@@ -44,7 +44,7 @@ const Products = [
     price: 49.99,
     gender: "Female",
     primary_src: "/assets/products/product-3.webp",
-    secondary_src: "/assets/products/product-3-secondary.webp"
+    secondary_src: "/assets/products/product-3-secondary.webp",
   },
 ];
 

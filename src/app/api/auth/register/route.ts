@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(body.password, salt);
 
     const date = new Date(body.date_of_birth);
-    const date_of_birth = date.toISOString();
 
     if (hashedPassword) {
       const user = await prisma.users.create({

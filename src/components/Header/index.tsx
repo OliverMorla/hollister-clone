@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RightSideNavItems, LeftSideNavItems } from "@/config/props-local";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { motion } from "framer-motion";
 import { fadeVariant1 } from "@/config/framer-animations";
@@ -15,6 +15,7 @@ const Header = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
   const { data: session } = useSession();
+  console.log(session)
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -37,19 +38,25 @@ const Header = () => {
         </ul>
         <ul className="">
           <li>
-            <a
-              href={
-                session?.user
-                  ? "/"
-                  : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`
-              }
+            <button
+              className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm"
+              onClick={() => setOpenAuthForm(!openAuthForm)}
             >
-              <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
-                <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
-                {session?.user ? "" : "Sign in Or Join"}
+              <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
+              {session?.user ? session.user.name : "Sign in Or Join"}
+            </button>
+            {session?.user && (
+              <button
+                onClick={() =>
+                  signOut({
+                    redirect: false,
+                    callbackUrl: "/",
+                  })
+                }
+              >
+                Log Out
               </button>
-            </a>
-            {session?.user && <a href="/api/auth/logout">Log Out</a>}
+            )}
           </li>
         </ul>
       </section>
@@ -91,6 +98,7 @@ const Header = () => {
         </section>
       </section>
 
+      {/* Cart Modal */}
       {openCart && (
         <motion.aside
           variants={fadeVariant1}
@@ -100,9 +108,19 @@ const Header = () => {
           <Cart />
         </motion.aside>
       )}
+
+      {/* Authentication Modal */}
       {openAuthForm && (
-        <motion.aside>
-          <AuthForm />
+        <motion.aside
+          variants={fadeVariant1}
+          initial="hidden"
+          animate="visible"
+          className=" absolute flex justify-center items-center w-screen h-screen bg-black bg-opacity-50 z-20"
+        >
+          <AuthForm
+            openAuthForm={openAuthForm}
+            setOpenAuthForm={setOpenAuthForm}
+          />
         </motion.aside>
       )}
     </header>

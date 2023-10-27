@@ -2,16 +2,15 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
 
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const handler = NextAuth({
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-
-  secret: process.env.OAUTH_SECRET,
+  secret: process.env.OAUTH_SECRET!,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_OAUTH2_CLIENT_ID ?? "",
@@ -23,12 +22,12 @@ const handler = NextAuth({
         username: {
           label: "email",
           type: "text",
-          placeholder: "Enter email",
+          placeholder: "email",
         },
         password: {
           label: "password",
           type: "password",
-          placeholder: "Enter password",
+          placeholder: "password",
         },
       },
       async authorize(credentials: any, req): Promise<any> {
@@ -76,20 +75,20 @@ const handler = NextAuth({
       return session;
     },
 
-    async jwt({ token, account, profile }) {
-      const user = await prisma.users.findUnique({
-        where: {
-          user_id: Number(token.sub),
-        },
-        select: {
-          role: true,
-        },
-      });
+      async jwt({ token, account, profile }) {
+        const user = await prisma.users.findUnique({
+          where: {
+            user_id: Number(token.sub),
+          },
+          select: {
+            role: true,
+          },
+        });
 
-      token.role = user?.role;
+        token.role = user?.role;
 
-      return token;
-    },
+        return token;
+      },
   },
 });
 
