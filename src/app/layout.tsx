@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { Noto_Sans } from "next/font/google";
 
-import { UserProvider } from "@auth0/nextjs-auth0/client";
 import CartProvider from "@/providers/cart-provider";
 
 import Header from "@/components/Header";
@@ -10,6 +9,7 @@ import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 
 import "./globals.css";
+import AuthProvider from "@/providers/auth-provider";
 
 const NotoSans = Noto_Sans({
   style: "normal",
@@ -29,15 +29,15 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <UserProvider>
-        <CartProvider>
-            <body className={NotoSans.className}>
-              <Header />
-              <Suspense fallback={<Loading />}>{children}</Suspense>
-              <Footer />
-            </body>
-        </CartProvider>
-      </UserProvider>
+      <body className={NotoSans.className}>
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 };

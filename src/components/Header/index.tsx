@@ -5,15 +5,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RightSideNavItems, LeftSideNavItems } from "@/config/props-local";
+import { useSession } from "next-auth/react";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import Cart from "../Cart";
 import { motion } from "framer-motion";
 import { fadeVariant1 } from "@/config/framer-animations";
-
+import Cart from "../Cart";
+import AuthForm from "../AuthForm";
 const Header = () => {
-  const { user, error, isLoading } = useUser();
   const [openCart, setOpenCart] = useState(false);
+  const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
+  const { data: session } = useSession();
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -38,15 +39,17 @@ const Header = () => {
           <li>
             <a
               href={
-                user ? "/" : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`
+                session?.user
+                  ? "/"
+                  : `${process.env.NEXT_PUBLIC_API_URL}/auth/login`
               }
             >
               <button className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm">
                 <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
-                {user ? user.name : "Sign in Or Join"}
+                {session?.user ? "" : "Sign in Or Join"}
               </button>
             </a>
-            {user && <a  href="/api/auth/logout">Log Out</a>}
+            {session?.user && <a href="/api/auth/logout">Log Out</a>}
           </li>
         </ul>
       </section>
@@ -95,6 +98,11 @@ const Header = () => {
           animate="visible"
         >
           <Cart />
+        </motion.aside>
+      )}
+      {openAuthForm && (
+        <motion.aside>
+          <AuthForm />
         </motion.aside>
       )}
     </header>
