@@ -21,10 +21,21 @@ interface CartProps {
 }
 
 interface CartItemsProps {
-  id: string,
-  price: number,
-  name: string,
-  quantity: number,
-  size: string,
-  cartPhoto: string,
+  id: string;
+  price: number;
+  name: string;
+  quantity: number;
+  size: string;
+  cartPhoto: string;
+}
+
+interface User {
+  user_id: string;
+  nickname: string;
+  name: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  password?: string;
+  role: string;
 }

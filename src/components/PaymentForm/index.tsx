@@ -1,4 +1,5 @@
 import { loadStripe } from "@stripe/stripe-js";
+import { useSession } from "next-auth/react";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
@@ -15,6 +16,7 @@ const PaymentForm = ({
   name: string;
   size: string;
 }) => {
+  const { data: userSession } = useSession();
   const handleCheckout = async () => {
     const stripe = await stripePromise;
 
@@ -28,6 +30,8 @@ const PaymentForm = ({
         price,
         name,
         size,
+        // @ts-ignore
+        user_id: userSession?.user.id,
       }),
     });
 
