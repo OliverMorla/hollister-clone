@@ -1,9 +1,20 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 import Link from "next/link";
 import React from "react";
 
+import { fadeVariant1 } from "@/config/framer-animations";
+
 const Success = () => {
   return (
-    <main className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+    <motion.main
+      variants={fadeVariant1}
+      initial="hidden"
+      animate="visible"
+      className="bg-gray-100 min-h-screen flex flex-col justify-center items-center"
+    >
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <h1 className="text-3xl font-bold text-green-500 mb-4">
           Your payment was successful!
@@ -17,7 +28,7 @@ const Success = () => {
           </button>
         </Link>
       </div>
-    </main>
+    </motion.main>
   );
 };
 

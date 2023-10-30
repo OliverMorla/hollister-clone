@@ -13,8 +13,9 @@ model orders {
   order_date  DateTime @default(now()) @db.Timestamptz(6)
   total_price Decimal  @db.Decimal(10, 2)
   payment_id  String   @db.VarChar(255)
-  user_id     Int?
-  users       users?   @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  user_id     Int
+  product_id  String   @unique @db.VarChar(255)
+  users       users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model users {

@@ -1,9 +1,18 @@
+"use client";
+
+import { fadeVariant1 } from "@/config/framer-animations";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 
 const Failed = () => {
   return (
-    <main className="bg-gray-100 h-screen">
+    <motion.main
+      variants={fadeVariant1}
+      initial="hidden"
+      animate="visible"
+      className="bg-gray-100 h-screen"
+    >
       <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
         <div className="px-4 py-8 sm:px-0">
           <div className="mx-auto max-w-md text-center">
@@ -27,7 +36,7 @@ const Failed = () => {
               Please check your payment details and try again.
             </p>
             <div className="mt-6">
-              <Link href={"/"}>
+              <Link href={"/auth/dashboard"}>
                 <button className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                   Go back to payment
                 </button>
@@ -36,7 +45,7 @@ const Failed = () => {
           </div>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 };
 

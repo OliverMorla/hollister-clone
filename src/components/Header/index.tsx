@@ -15,7 +15,6 @@ const Header = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
   const { data: session } = useSession();
-  console.log(session)
   return (
     <header className="flex flex-col bg-[--primary]">
       <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
@@ -87,7 +86,7 @@ const Header = () => {
               <li key={index}>
                 <FontAwesomeIcon
                   icon={item.name}
-                  className="text-black w-4 cursor-pointer"
+                  className="text-black w-4 cursor-pointer hover:scale-125 transition-transform ease-in-out"
                   onClick={() => {
                     if (item.type == "cart") setOpenCart(!openCart);
                   }}
@@ -105,7 +104,7 @@ const Header = () => {
           initial="hidden"
           animate="visible"
         >
-          <Cart />
+          <Cart openCart={openCart} setOpenCart={setOpenCart} />
         </motion.aside>
       )}
 

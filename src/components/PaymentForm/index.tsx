@@ -1,50 +1,71 @@
 import { loadStripe } from "@stripe/stripe-js";
-import { useSession } from "next-auth/react";
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
 const PaymentForm = ({
+  product_id,
   quantity,
   price,
   name,
   size,
+  items,
+  color,
 }: {
-  quantity: number;
-  price: number;
-  name: string;
-  size: string;
+  product_id?: string;
+  quantity?: number;
+  price?: number;
+  name?: string;
+  size?: string;
+  color?: string;
+  items?: CartItemsProps[];
 }) => {
-  const { data: userSession } = useSession();
   const handleCheckout = async () => {
     const stripe = await stripePromise;
 
-    const response = await fetch("/api/checkout-sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        quantity,
-        price,
-        name,
-        size,
-        // @ts-ignore
-        user_id: userSession?.user.id,
-      }),
-    });
+    if (
+      product_id !== "" &&
+      quantity !== 0 &&
+      price !== 0 &&
+      name !== "" &&
+      size !== "" &&
+      color !== ""
+    ) {
+      const res = await fetch("/api/checkout-sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product_id,
+          quantity,
+          price,
+          name,
+          size,
+          items,
+          color,
+        }),
+      });
 
-    const { sessionId } = await response.json();
-    const session = await stripe?.redirectToCheckout({
-      sessionId,
-    });
+      const { sessionId, ok, message } = await res.json();
+
+      if (!ok) {
+        alert(message);
+      } else {
+        const session = await stripe?.redirectToCheckout({
+          sessionId,
+        });
+      }
+    } else {
+      alert ("Please make sure you have selected a product and a size")
+    }
   };
 
   return (
     <button
       onClick={handleCheckout}
-      className="bg-[--blue-light] text-white font-bold p-4 rounded-3xl"
+      className="bg-[--blue-light] text-white font-bold p-4 rounded-3xl hover:bg-[--blue-smooth] transition-colors ease-in-out "
     >
       Checkout
     </button>

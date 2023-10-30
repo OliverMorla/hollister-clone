@@ -4,16 +4,17 @@ import Image from "next/image";
 
 const ProductCard = ({
   _id,
+  _type,
   name,
   category,
   isNew,
   isPopular,
+  isFeatured,
   price,
   gender,
   primaryImageUrl,
   secondaryImageUrl,
   _createdAt,
-  _type,
 }: ProductCardProps) => {
   return (
     <div className="flex flex-col shadow-sm cursor-pointer hover:scale-105 transition-transform ease-in-out">
@@ -22,7 +23,7 @@ const ProductCard = ({
           src={primaryImageUrl}
           width={250}
           height={275}
-          className="relative w-[375px] h-[475px] object-cover"
+          className="relative min-w-[375px] h-[475px] object-cover"
           alt={name}
         />
         <Image

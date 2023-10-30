@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "../../sanity/lib/client";
-import { set } from "sanity";
+
 import ProductCard from "@/components/Product/Card";
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
       name,
       isNew,
       isPopular,
+      isFeatured,
       category,
       price,
       _createdAt,
@@ -33,14 +35,14 @@ const Home = () => {
   }, []);
 
   return (
-    <main className="flex mx-auto flex-col gap-2">
+    <main className="flex mx-auto flex-col gap-2 w-full">
       <section className="relative">
         <Image
           src={"/assets/images/hco-20231006-HP-D-GH_New-Arrivals_R.webp"}
           width={1568}
           height={620}
           alt="banner-1"
-          className="relative"
+          className="relative w-full"
         />
         <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-30%]">
           <h1 className="text-white text-2xl text-center">
@@ -51,7 +53,7 @@ const Home = () => {
             src={"/assets/images/gh_2023_BeforeDuringApres_White.svg"}
             width={215}
             height={200}
-            className=""
+            className="max-sm:w-[100px]"
             alt="banner-1"
           />
         </section>
@@ -123,66 +125,74 @@ const Home = () => {
         <h1 className="text-center text-4xl font-bold mb-4 tracking-tighter">
           Popular
         </h1>
-        <section className="flex gap-4">
-          {products.map((product) => {
-            if (product.isPopular) {
-              return (
-                <Link
-                  href={`/shop/${
-                    product.gender[0] === "male" ? "men" : "women"
-                  }/${product._id}`}
-                  key={product._id}
-                >
-                  <ProductCard
-                    _id={product._id}
-                    name={product.name}
-                    category={product.category}
-                    isNew={product.isNew}
-                    isPopular={product.isPopular}
-                    gender={product.gender}
-                    price={product.price}
-                    primaryImageUrl={product.primaryImageUrl}
-                    secondaryImageUrl={product.secondaryImageUrl}
-                    _type={product._type}
-                    _createdAt={product._createdAt}
-                  />
-                </Link>
-              );
-            }
-          })}
+        <section className="flex gap-4 max-w-[1568px] overflow-x-scroll overflow-y-hidden">
+          <section className="flex gap-4">
+            {products.map((product) => {
+              if (product.isPopular) {
+                return (
+                  <Link
+                    href={`/shop/${
+                      product?.gender[0] === "male" ? "men" : "women"
+                    }/${product._id}`}
+                    key={product._id}
+                  >
+                    <ProductCard
+                      _type={product._type}
+                      _id={product._id}
+                      name={product.name}
+                      category={product.category}
+                      isNew={product.isNew}
+                      isPopular={product.isPopular}
+                      isFeatured={product.isFeatured}
+                      gender={product.gender}
+                      price={product.price}
+                      primaryImageUrl={product.primaryImageUrl}
+                      secondaryImageUrl={product.secondaryImageUrl}
+                      _createdAt={product._createdAt}
+                      _UpdatedAt={product._UpdatedAt}
+                    />
+                  </Link>
+                );
+              }
+            })}
+          </section>
         </section>
       </section>
       <section>
         <h1 className="text-center text-4xl font-bold mb-4 tracking-tighter">
           New Arrivals
         </h1>
-        <section className="flex gap-4">
-          {products.map((product) => {
-            if (product.isNew) {
-              return (
-                <Link
-                  href={`/shop/${
-                    product.gender[0] === "male" ? "men" : "women"
-                  }/${product._id}`}
-                  key={product._id}
-                >
-                  <ProductCard
-                    _id={product._id}
-                    name={product.name}
-                    category={product.category}
-                    isNew={product.isNew}
-                    isPopular={product.isPopular}
-                    gender={product.gender}
-                    price={product.price}
-                    primaryImageUrl={product.primaryImageUrl}
-                    secondaryImageUrl={product.secondaryImageUrl}
-                    _type={product._type}
-                    _createdAt={product._createdAt}
-                  />
-                </Link>
-              );
-            }
-          })}
+        <section className="flex gap-4 max-w-[1568px] overflow-x-scroll">
+          <section className="flex gap-4 w-full">
+            {products.map((product) => {
+              if (product.isNew) {
+                return (
+                  <Link
+                    href={`/shop/${
+                      product.gender[0] === "male" ? "men" : "women"
+                    }/${product._id}`}
+                    key={product._id}
+                  >
+                    <ProductCard
+                      _type={product._type}
+                      _id={product._id}
+                      name={product.name}
+                      category={product.category}
+                      isNew={product.isNew}
+                      isPopular={product.isPopular}
+                      isFeatured={product.isFeatured}
+                      gender={product.gender}
+                      price={product.price}
+                      primaryImageUrl={product.primaryImageUrl}
+                      secondaryImageUrl={product.secondaryImageUrl}
+                      _createdAt={product._createdAt}
+                      _UpdatedAt={product._UpdatedAt}
+                    />
+                  </Link>
+                );
+              }
+            })}
+          </section>
         </section>
       </section>
     </main>

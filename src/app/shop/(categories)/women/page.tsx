@@ -101,7 +101,6 @@ const Women = () => {
           <h3 className="shop__content-header__title">Women's Clothing</h3>
           <select
             name="sort-by"
-            id=""
             className="shop__content-header__options"
           >
             <option value="featured">Featured</option>
@@ -128,6 +127,11 @@ const Women = () => {
                     secondaryImageUrl={product.secondaryImageUrl}
                     _type={product._type}
                     _createdAt={product._createdAt}
+                    color={product.color}
+                    _UpdatedAt={product._UpdatedAt}
+                    isFeatured={product.isFeatured}
+                    description={product.description}
+                    size={product.size}
                   />
                 </Link>
               );

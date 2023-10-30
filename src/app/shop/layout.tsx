@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import Loading from "@/components/Loading";
+import { Loading } from "@/components/Loading";
 
 export const metadata: Metadata = {
   title: "Hollister - Shop",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   keywords: "Hollister, clothes, fashion, jeans, shirts, t-shirts, pants",
 };
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const ShopLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Suspense fallback={<Loading />}>{children}</Suspense>
@@ -18,4 +18,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Layout;
+export default ShopLayout;

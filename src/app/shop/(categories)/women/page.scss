@@ -2,6 +2,7 @@
 
 .shop {
   display: flex;
+  gap: 10px;
   max-width: 1568px;
   margin: 20px auto;
   .shop__left-panel {
@@ -74,9 +75,9 @@
 
     .shop__content-body {
       display: flex;
-      gap: 14px;
-      margin-left: 40px;
+      gap: 10px;
       flex-flow: row wrap;
+      justify-content: flex-start;
     }
 
     .shop__content-footer {

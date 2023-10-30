@@ -7,7 +7,7 @@ import AuthProvider from "@/providers/auth-provider";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Loading from "@/components/Loading";
+import { Loading } from "@/components/Loading";
 
 import "./globals.css";
 
@@ -32,9 +32,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={NotoSans.className}>
         <AuthProvider>
           <CartProvider>
-            <Header />
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-            <Footer />
+            <Suspense fallback={<Loading />}>
+              <Header />
+              {children}
+              <Footer />
+            </Suspense>
           </CartProvider>
         </AuthProvider>
       </body>

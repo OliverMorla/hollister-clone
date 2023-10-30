@@ -2,9 +2,7 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 const handler = NextAuth({
   session: {
@@ -75,20 +73,20 @@ const handler = NextAuth({
       return session;
     },
 
-      async jwt({ token, account, profile }) {
-        const user = await prisma.users.findUnique({
-          where: {
-            user_id: Number(token.sub),
-          },
-          select: {
-            role: true,
-          },
-        });
+    async jwt({ token, account, profile }) {
+      const user = await prisma.users.findUnique({
+        where: {
+          user_id: Number(token.sub),
+        },
+        select: {
+          role: true,
+        },
+      });
 
-        token.role = user?.role;
+      token.role = user?.role;
 
-        return token;
-      },
+      return token;
+    },
   },
 });
 

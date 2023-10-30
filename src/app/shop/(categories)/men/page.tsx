@@ -31,6 +31,7 @@ const Men = () => {
       }
     `
     );
+
     setProducts(fetchedProducts);
   };
 
@@ -114,21 +115,23 @@ const Men = () => {
         </section>
         <section className="shop__content-body">
           {products.map((product) => {
-            if (product.gender[0] == "male") {
+            if (product?.gender[0] == "male") {
               return (
                 <Link href={`/shop/men/${product._id}`} key={product._id}>
                   <ProductCard
                     _id={product._id}
+                    _type={product._type}
                     name={product.name}
-                    category={product.category}
                     isNew={product.isNew}
                     isPopular={product.isPopular}
+                    isFeatured={product.isFeatured}
+                    category={product.category}
                     gender={product.gender}
                     price={product.price}
                     primaryImageUrl={product.primaryImageUrl}
                     secondaryImageUrl={product.secondaryImageUrl}
-                    _type={product._type}
                     _createdAt={product._createdAt}
+                    _UpdatedAt={product._UpdatedAt}
                   />
                 </Link>
               );
