@@ -35,7 +35,7 @@ const Home = () => {
   }, []);
 
   return (
-    <main className="flex mx-auto flex-col gap-2 w-full">
+    <main className="flex flex-col max-w-[1568px] w-full mx-auto gap-2">
       <section className="relative">
         <Image
           src={"/assets/images/hco-20231006-HP-D-GH_New-Arrivals_R.webp"}
