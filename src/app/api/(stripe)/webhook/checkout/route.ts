@@ -8,21 +8,21 @@ import Stripe from "stripe";
 const stripe: Stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const cors = Cors({
-  allowMethods: ["POST", "HEAD", "GET"],
+  allowMethods: ["POST", "HEAD"],
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const signature = req.headers.get("stripe-signature");
+  const signature = req.headers.get("stripe-signature") as string;
+
+  console.log(signature);
+  console.log(body);
+
   let event, user_id;
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature as string,
-      webhookSecret
-    );
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     return NextResponse.json(
       {

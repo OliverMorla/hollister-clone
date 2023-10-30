@@ -87,7 +87,7 @@ const AuthForm = ({
             borderBottom: showRegister ? "1px solid grey" : "3px solid black",
           }}
         >
-          SIGN IN
+          Sign In
         </button>
         <button
           className="font-bold p-4 border-b-2"
@@ -124,6 +124,17 @@ const AuthForm = ({
       </div>
       <div className="flex flex-col relative">
         <div className="flex flex-col ">
+          {!showRegister && (
+            <div className="text-sm text-center">
+              <h2 className="underline"> Test Account </h2>
+              <p>
+                <span className="font-bold">Email:</span> guest@hollister.com
+              </p>
+              <p>
+                <span className="font-bold">Password:</span> password
+              </p>
+            </div>
+          )}
           {showRegister && (
             <input
               type="text"
