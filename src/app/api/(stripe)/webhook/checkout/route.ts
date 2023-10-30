@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
       event.data.object.id &&
       event.data.object.amount_total &&
       event.data.object.customer_details?.email &&
-      event.data.object.metadata?.product_id
+      event.data.object.metadata?.product_id &&
+      event.data.object.metadata?.quantity
     ) {
       const user = await prisma.users.findUnique({
         where: {
@@ -62,6 +63,7 @@ export async function POST(req: NextRequest) {
             payment_id: event.data.object.id,
             total_price: event.data.object.amount_total / 100,
             user_id: Number(user?.user_id) || Number(user_id),
+            total_quantity: Number(event.data.object.metadata.quantity),
             product_id: event.data.object.metadata.product_id,
           },
         });

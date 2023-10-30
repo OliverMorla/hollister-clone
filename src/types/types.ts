@@ -60,4 +60,11 @@ interface Orders {
   payment_id: string;
   user_id: number;
   product_id: string | any;
+  total_quantity: number;
+  order_status: "pending" | "shipped" | "delivered" | "cancelled";
+  product: {
+    name: string;
+    primaryImage: string;
+    secondaryImage: string;
+  }
 }

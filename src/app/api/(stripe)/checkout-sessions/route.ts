@@ -16,29 +16,32 @@ export async function POST(req: NextRequest, res: NextResponse) {
     quantity,
     size,
     items,
+    color,
     product_id,
   }: {
     name: string;
     price: number;
     quantity: number;
     size: string;
+    color: string;
     product_id: string;
     items: CartItemsProps[];
   } = await req.json();
 
   if (user) {
-    if (name || price || quantity || size || product_id) {
+    if (name || price || quantity || size || product_id || color) {
       try {
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
           customer_email: user.email!,
           metadata: {
             name: name,
-            quantity: quantity,
-            price: price,
             size: size,
-            user_email: user.email!,
+            color: color,
+            price: price,
+            quantity: quantity,
             product_id: product_id,
+            user_email: user.email!,
           },
 
           line_items: [
@@ -47,14 +50,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 currency: "usd",
                 product_data: {
                   name: name,
-                  description: `${name} - Size: ${size}`,
+                  description: `${name} - Size: ${size} - Color: ${color}`,
                   metadata: {
-                    size: size,
                     name: name,
-                    quantity: quantity,
+                    size: size,
+                    color: color,
                     price: price,
-                    user_email: user.email!,
+                    quantity: quantity,
                     product_id: product_id,
+                    user_email: user.email!,
                   },
                 },
                 unit_amount: price * 100,
@@ -116,8 +120,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         items.forEach((item, index) => {
           product_ids[index] = item.id;
         });
-        
-        console.log(product_ids);
 
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],

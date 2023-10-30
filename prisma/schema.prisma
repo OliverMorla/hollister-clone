@@ -9,13 +9,15 @@ datasource db {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model orders {
-  order_id    Int      @id @default(autoincrement())
-  order_date  DateTime @default(now()) @db.Timestamptz(6)
-  total_price Decimal  @db.Decimal(10, 2)
-  payment_id  String   @db.VarChar(255)
-  user_id     Int
-  product_id  String   @unique @db.VarChar(255)
-  users       users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  order_id       Int               @id @default(autoincrement())
+  order_date     DateTime          @default(now()) @db.Timestamptz(6)
+  total_price    Decimal           @db.Decimal(10, 2)
+  payment_id     String            @db.VarChar(255)
+  user_id        Int
+  product_id     String            @db.VarChar(255)
+  total_quantity Int               @default(1)
+  order_status   order_status_enum @default(pending)
+  users          users             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model users {
@@ -28,4 +30,11 @@ model users {
   password       String   @db.VarChar(255)
   role           String   @default("member") @db.VarChar(255)
   orders         orders[]
+}
+
+enum order_status_enum {
+  pending
+  shipped
+  delivered
+  cancelled
 }

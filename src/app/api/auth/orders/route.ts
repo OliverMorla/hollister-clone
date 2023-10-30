@@ -23,6 +23,8 @@ export async function GET(req: NextRequest) {
           total_price: true,
           order_date: true,
           product_id: true,
+          order_status: true,
+          total_quantity: true,
         },
       });
 

@@ -35,15 +35,8 @@ const Header = () => {
             SOCIAL TOURIST
           </li>
         </ul>
-        <ul className="">
+        <ul className="flex items-center gap-2">
           <li>
-            <button
-              className="flex items-center gap-2 mr-8 font-bold tracking-tighter text-sm"
-              onClick={() => setOpenAuthForm(!openAuthForm)}
-            >
-              <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
-              {session?.user ? session.user.name : "Sign in Or Join"}
-            </button>
             {session?.user && (
               <button
                 onClick={() =>
@@ -56,6 +49,18 @@ const Header = () => {
                 Log Out
               </button>
             )}
+          </li>
+          <li>
+            <Link href={"/auth/dashboard"}>Dashboard</Link>
+          </li>
+          <li className="border-l-2 border-l-[black] pl-2">
+            <button
+              className="flex items-center gap-2 font-bold tracking-tighter text-sm"
+              onClick={() => !session?.user && setOpenAuthForm(!openAuthForm)}
+            >
+              <FontAwesomeIcon icon={faUser} height={15} width={15} />{" "}
+              {session?.user ? session.user.name : "Sign in Or Join"}
+            </button>
           </li>
         </ul>
       </section>
