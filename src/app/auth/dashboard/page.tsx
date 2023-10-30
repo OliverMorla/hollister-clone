@@ -97,50 +97,49 @@ const Dashboard = () => {
                   </li>
                 </ul>
               </section>
-              <section className="flex flex-col justify-center items-center h-[800px] overflow-y-scroll">
+              <section className="flex flex-col justify-center items-center overflow-x-scroll overflow-y-hidden max-w-[1568px] mx-auto">
                 <h1 className="font-bold">Orders</h1>
-                {orders?.map((order) => (
-                  <>
-                    <section
+                <ul className="flex">
+                  {orders?.map((order) => (
+                    <li
                       key={order.order_id}
-                      className="flex justify-center gap-2 "
+                      className="flex justify-center gap-2 min-w-fit"
                     >
-                      <ul className="flex flex-col items-center justify-center">
-                        <li>
+                      <section className="flex flex-col items-center justify-center">
+                        <div>
                           <span className="font-bold">Order ID:</span>{" "}
                           {order.order_id}
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                           <span className="font-bold">Order Status:</span>{" "}
                           {order.order_status}
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                           <span className="font-bold">Order Date:</span>{" "}
                           {order.order_date.toLocaleString()}
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                           <span className="font-bold">Total Quantity:</span>{" "}
                           {order.total_quantity}
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                           <span className="font-bold">Order Total:</span>{" "}
                           {order.total_price}
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                           <span className="font-bold">Product ID:</span>
                           {order.product_id}
-                        </li>
-                      </ul>
+                        </div>
+                      </section>
                       <Image
                         width={200}
                         height={200}
                         src={order.product?.primaryImage}
                         alt="product image"
                       />
-                    </section>
-                    
-                  </>
-                ))}
+                    </li>
+                  ))}
+                </ul>
               </section>
             </section>
           </section>
