@@ -36,7 +36,7 @@ const Header = () => {
           </li>
         </ul>
         <ul className="flex items-center gap-2">
-          <li>
+          <li className="hover:underline">
             {session?.user && (
               <button
                 onClick={() =>
@@ -50,10 +50,10 @@ const Header = () => {
               </button>
             )}
           </li>
-          <li>
-            <Link href={"/auth/dashboard"}>Dashboard</Link>
+          <li className="hover:font-bold transition-all border-r-2 border-r-[black] pr-2">
+            {session?.user && <Link href={"/auth/dashboard"}>Dashboard</Link>}
           </li>
-          <li className="border-l-2 border-l-[black] pl-2">
+          <li>
             <button
               className="flex items-center gap-2 font-bold tracking-tighter text-sm"
               onClick={() => !session?.user && setOpenAuthForm(!openAuthForm)}
@@ -79,7 +79,10 @@ const Header = () => {
               </Link>
             </li>
             {LeftSideNavItems.map((item, index) => (
-              <li key={index} className="text-xs">
+              <li
+                key={index}
+                className="text-xs hover:scale-125 transition-transform"
+              >
                 <Link href={item.href} className="font-bold">
                   {item.name}
                 </Link>

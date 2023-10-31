@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { useState, useEffect } from "react";
+
 import { client } from "../../sanity/lib/client";
 
 import ProductCard from "@/components/Product/Card";
@@ -89,7 +91,7 @@ const Home = () => {
         </video>
       </section>
       <section className="relative">
-        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10">
+        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10 max-lg:scale-50">
           <h2 className="text-4xl font-bold text-center">
             SELECT SWEATSHIRTS & SWEATPANTS
           </h2>
@@ -162,7 +164,7 @@ const Home = () => {
         <h1 className="text-center text-4xl font-bold mb-4 tracking-tighter">
           New Arrivals
         </h1>
-        <section className="flex gap-4 max-w-[1568px] overflow-x-scroll">
+        <section className="flex gap-4 max-w-[1568px] overflow-x-scroll overflow-y-hidden">
           <section className="flex gap-4 w-full">
             {products.map((product) => {
               if (product.isNew) {

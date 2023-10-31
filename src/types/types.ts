@@ -66,5 +66,5 @@ interface Orders {
     name: string;
     primaryImage: string;
     secondaryImage: string;
-  }
+  };
 }

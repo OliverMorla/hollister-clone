@@ -23,7 +23,7 @@ const PaymentForm = ({
 }) => {
   const handleCheckout = async () => {
     const stripe = await stripePromise;
-
+    
     if (
       product_id !== "" &&
       quantity !== 0 &&
