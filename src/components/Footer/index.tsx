@@ -85,7 +85,7 @@ const Footer = () => {
           </li>
           <li>Dark Mode</li>
         </ul>
-        <ul className="flex flex-col w-[350px]">
+        <ul className="flex flex-col w-[350px] gap-4">
           <li className="font-bold mb-6">Subscribe</li>
           <li>
             <form action="" className="relative">

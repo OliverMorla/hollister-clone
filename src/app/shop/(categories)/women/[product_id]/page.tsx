@@ -120,7 +120,7 @@ const Product = ({
               <span>
                 Color:{" "}
                 <span className="text-[--blue-light]">
-                  {productOptions.color !== "" ? productOptions.color : "Black"}
+                  {productOptions.color !== "" ? productOptions.color : "Select"}
                 </span>
               </span>
               <section className="product__color-options">
@@ -136,6 +136,7 @@ const Product = ({
                         height: "35px",
                         backgroundColor: color,
                         borderRadius: "50%",
+                        cursor: "pointer",
                         border:
                           productOptions.color ===
                           color.charAt(0).toUpperCase() +
@@ -143,6 +144,7 @@ const Product = ({
                             ? "2px solid black"
                             : "",
                       }}
+                      className="hover:border-black border-2 transition-colors ease-in-out"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setProductOptions({
                           ...productOptions,

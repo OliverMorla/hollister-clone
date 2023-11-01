@@ -10,13 +10,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from "@/components/Product/Card";
 import "./page.scss";
+import { useSearchParams } from "next/navigation";
 
 const Men = () => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+
+  const currentCategory = useSearchParams().get("category");
+
   const getProducts = async () => {
-    const fetchedProducts = await client.fetch(
+    const fetchedProducts: ProductProps[] | any = await client.fetch(
       `
-      *[_type=="product"]{
+      *[_type=="product" && gender[0] == "male"]{
         _id,
         name,
         isNew,
@@ -33,46 +38,67 @@ const Men = () => {
     );
 
     setProducts(fetchedProducts);
+    const getCategories = async () => {
+      const fetchedCategories: string[] = [];
+
+      await Promise.all(
+        fetchedProducts.map(async (product: ProductProps) => {
+          await Promise.all(
+            product.category.map(async (category: string) => {
+              fetchedCategories.push(
+                category.charAt(0).toUpperCase() +
+                  category.slice(1).toLowerCase()
+              );
+            })
+          );
+        })
+      );
+
+      const categoriesFiltered = Array.from(new Set(fetchedCategories));
+      setCategories(categoriesFiltered);
+    };
+    getCategories();
   };
 
   useEffect(() => {
     getProducts();
   }, []);
 
+  console.log(categories);
+  console.log(currentCategory);
+
   return (
     <main className="shop">
       <aside className="shop__left-panel">
         <ul className="shop__left-panel__list">
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>New Arrivals</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Tops</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Bottoms</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Jackets & Coats</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Sleepwear & Loungewear</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Swimwear</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Activewear</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Underwear & Socks</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Accessories & Shoes</Link>
-          </li>
-          <li className="shop__left-panel__list-item">
-            <Link href={""}>Cologne & Body</Link>
-          </li>
+          {currentCategory && (
+            <li className="shop__left-panel__list-item">
+              <Link
+                href={"/shop/men"}
+                style={{
+                  fontWeight: currentCategory === null ? "bold" : "normal",
+                  textDecoration:
+                    currentCategory === null ? "underline" : "none",
+                }}
+              >
+                All
+              </Link>
+            </li>
+          )}
+          {categories.map((category, index) => (
+            <li className="shop__left-panel__list-item" key={index}>
+              <Link
+                href={`/shop/men?category=${category}`}
+                style={{
+                  fontWeight: currentCategory === category ? "bold" : "normal",
+                  textDecoration:
+                    currentCategory === category ? "underline" : "none",
+                }}
+              >
+                {category}
+              </Link>
+            </li>
+          ))}
         </ul>
         <ul className="shop__left-panel__list-2">
           <h2
@@ -114,8 +140,32 @@ const Men = () => {
           </select>
         </section>
         <section className="shop__content-body">
-          {products.map((product) => {
-            if (product?.gender[0] == "male") {
+          {products?.map((product) => {
+            console.log(product);
+            if (
+              currentCategory &&
+              product.category.includes(currentCategory.toLowerCase())
+            ) {
+              return (
+                <Link href={`/shop/men/${product._id}`} key={product._id}>
+                  <ProductCard
+                    _id={product._id}
+                    _type={product._type}
+                    name={product.name}
+                    isNew={product.isNew}
+                    isPopular={product.isPopular}
+                    isFeatured={product.isFeatured}
+                    category={product.category}
+                    gender={product.gender}
+                    price={product.price}
+                    primaryImageUrl={product.primaryImageUrl}
+                    secondaryImageUrl={product.secondaryImageUrl}
+                    _createdAt={product._createdAt}
+                    _UpdatedAt={product._UpdatedAt}
+                  />
+                </Link>
+              );
+            } else if (currentCategory === null) {
               return (
                 <Link href={`/shop/men/${product._id}`} key={product._id}>
                   <ProductCard

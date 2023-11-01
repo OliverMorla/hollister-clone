@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// Define a type for the slice state
 const initialState = {
   items: [
     {
-      id: "0",
+      id: "",
       price: 0,
       quantity: 0,
       name: "",
@@ -16,10 +17,12 @@ const initialState = {
   changed: false,
 };
 
+// If we are in the browser, get the cart from local storage
 if (typeof window !== "undefined") {
   initialState.items = JSON.parse(localStorage.getItem("cart") || "[]");
 }
 
+// Creating a slice for our cart with our previously defined initialState and handlers for our reducers
 const cartSlice = createSlice({
   name: "cart",
   initialState,

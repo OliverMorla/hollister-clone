@@ -11,13 +11,17 @@ import { motion } from "framer-motion";
 import { fadeVariant1 } from "@/config/framer-animations";
 import Cart from "../Cart";
 import AuthForm from "../AuthForm";
+import { useSelector } from "react-redux";
 const Header = () => {
   const [openCart, setOpenCart] = useState(false);
   const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
+  const cart: CartItemsProps[] = useSelector(
+    (state: any) => state.cartReducer.items
+  );
   const { data: session } = useSession();
   return (
     <header className="flex flex-col bg-[--primary]">
-      <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto">
+      <section className="flex items-center bg-[--primary] h-[50px] justify-between max-w-[1568px] w-full mx-auto max-sm:flex-col max-sm:h-auto max-sm:p-4 max-sm:gap-2">
         <ul className="flex h-full ml-8">
           <li className="flex items-center justify-center w-[100px] bg-[--secondary]">
             <Image
@@ -53,6 +57,7 @@ const Header = () => {
           <li className="hover:font-bold transition-all border-r-2 border-r-[black] pr-2">
             {session?.user && <Link href={"/auth/dashboard"}>Dashboard</Link>}
           </li>
+
           <li>
             <button
               className="flex items-center gap-2 font-bold tracking-tighter text-sm"
@@ -65,7 +70,7 @@ const Header = () => {
         </ul>
       </section>
       <section className="bg-[--secondary]">
-        <section className="flex h-[75px] justify-between max-w-[1568px] w-full mx-auto">
+        <section className="flex h-[75px] justify-between max-w-[1568px] w-full mx-auto max-md:flex-col max-md:h-auto max-md:items-center">
           <ul className="flex list-none items-center font-bold gap-4 ml-8">
             <li>
               <Link href={"/"}>
@@ -91,7 +96,7 @@ const Header = () => {
           </ul>
           <ul className="flex list-none items-center font-bold gap-8 mr-8">
             {RightSideNavItems.map((item, index) => (
-              <li key={index}>
+              <li key={index} className="flex relative">
                 <FontAwesomeIcon
                   icon={item.name}
                   className="text-black w-4 cursor-pointer hover:scale-125 transition-transform ease-in-out"
@@ -99,6 +104,17 @@ const Header = () => {
                     if (item.type == "cart") setOpenCart(!openCart);
                   }}
                 />
+                {item.type == "cart" && (
+                  <div>
+                    {/* {Array.isArray(cart) && cart.length >= 1 ? (
+                      <span className="absolute top-0 right-0 bg-[--red-smooth] min-h-[15px] min-w-[15px] rounded-full text-xs text-white flex justify-center items-center m-2">
+                        {cart.length}
+                      </span>
+                    ) : (
+                      ""
+                    )} */}
+                  </div>
+                )}
               </li>
             ))}
           </ul>

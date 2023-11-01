@@ -11,11 +11,14 @@ import { client } from "../../sanity/lib/client";
 import ProductCard from "@/components/Product/Card";
 
 const Home = () => {
-  const [products, setProducts] = useState<ProductProps[]>([]);
+  const [products, setProducts] = useState<HomeProductProps>({
+    isNew: [],
+    isPopular: [],
+  });
 
   const getProduts = async () => {
-    const products = await client.fetch(`
-    *[_type == "product"]{
+    const newProducts = await client.fetch(`
+    *[_type == "product" && isNew == true][0...4]{
       _id,
       name,
       isNew,
@@ -29,7 +32,26 @@ const Home = () => {
       "primaryImageUrl": image[0].asset->url,
       "secondaryImageUrl": image[1].asset->url
     }`);
-    setProducts(products);
+    const popularProducts = await client.fetch(`
+    *[_type == "product" && isPopular == true][0...4]{
+      _id,
+      name,
+      isNew,
+      isPopular,
+      isFeatured,
+      category,
+      price,
+      _createdAt,
+      _type,
+      gender,
+      "primaryImageUrl": image[0].asset->url,
+      "secondaryImageUrl": image[1].asset->url
+    }`);
+    setProducts({
+      ...products,
+      isNew: newProducts,
+      isPopular: popularProducts,
+    });
   };
 
   useEffect(() => {
@@ -46,7 +68,7 @@ const Home = () => {
           alt="banner-1"
           className="relative w-full"
         />
-        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-30%]">
+        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-30%] max-sm:scale-50 max-sm:translate-y-[-50%]">
           <h1 className="text-white text-2xl text-center">
             {" "}
             GILLY HICKS ACTIVE
@@ -55,13 +77,13 @@ const Home = () => {
             src={"/assets/images/gh_2023_BeforeDuringApres_White.svg"}
             width={215}
             height={200}
-            className="max-sm:w-[100px]"
+            className=""
             alt="banner-1"
           />
         </section>
       </section>
       <section className="relative">
-        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10">
+        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10 max-sm:scale-50">
           <h2 className="text-4xl font-bold text-center">
             ULTIMATE FAUX FUR-LINED PUFFER JACKETS
           </h2>
@@ -70,13 +92,13 @@ const Home = () => {
             They’re the puffers that get everything right.
           </h4>
           <section className="flex gap-4 justify-center mt-4">
-            <Link href={""}>
+            <Link href={"/shop/women"}>
               <button className="bg-white text-black p-4 rounded-md hover:bg-[--blue-smooth] hover:text-white transition-colors ease-in-out">
                 Shop Women's
               </button>
             </Link>
             <Link
-              href={""}
+              href={"/shop/men"}
               className="bg-white text-black p-4 rounded-md hover:bg-[--blue-smooth] hover:text-white transition-colors ease-in-out"
             >
               <button>Shop Men's</button>
@@ -91,7 +113,7 @@ const Home = () => {
         </video>
       </section>
       <section className="relative">
-        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10 max-lg:scale-50">
+        <section className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white w-[500px] z-10 max-lg:scale-50 max-sm:scale-[.25]">
           <h2 className="text-4xl font-bold text-center">
             SELECT SWEATSHIRTS & SWEATPANTS
           </h2>
@@ -100,13 +122,13 @@ const Home = () => {
             25% OFF* SELECT STYLES
           </h4>
           <section className="flex gap-4 justify-center mt-4">
-            <Link href={""}>
+            <Link href={"/shop/women"}>
               <button className="bg-white text-black p-4 rounded-md hover:bg-[--blue-smooth] hover:text-white transition-colors ease-in-out">
                 Shop Women's
               </button>
             </Link>
             <Link
-              href={""}
+              href={"/shop/men"}
               className="bg-white text-black p-4 rounded-md hover:bg-[--blue-smooth] hover:text-white transition-colors ease-in-out"
             >
               <button>Shop Men's</button>
@@ -129,7 +151,7 @@ const Home = () => {
         </h1>
         <section className="flex gap-4 max-w-[1568px] overflow-x-scroll overflow-y-hidden">
           <section className="flex gap-4">
-            {products.map((product) => {
+            {products.isPopular.map((product) => {
               if (product.isPopular) {
                 return (
                   <Link
@@ -166,7 +188,7 @@ const Home = () => {
         </h1>
         <section className="flex gap-4 max-w-[1568px] overflow-x-scroll overflow-y-hidden">
           <section className="flex gap-4 w-full">
-            {products.map((product) => {
+            {products.isNew.map((product) => {
               if (product.isNew) {
                 return (
                   <Link

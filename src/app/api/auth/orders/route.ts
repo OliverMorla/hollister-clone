@@ -4,6 +4,7 @@ import { client } from "../../../../../sanity/lib/client";
 import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
+  
   const isAuthenticated = await getToken({
     req,
     secret: process.env.OAUTH_SECRET,

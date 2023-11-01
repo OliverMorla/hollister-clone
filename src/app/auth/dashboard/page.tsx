@@ -116,7 +116,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                           <span className="font-bold">Order Date:</span>{" "}
-                          {order.order_date.toLocaleString()}
+                          {new Date (order.order_date).toLocaleTimeString()}
                         </div>
                         <div>
                           <span className="font-bold">Total Quantity:</span>{" "}

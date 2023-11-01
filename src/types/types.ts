@@ -8,8 +8,8 @@ interface ProductCardProps {
   isFeatured: boolean;
   size?: string[];
   color?: string[];
-  category?: string[] | string;
-  gender: string[] | string;
+  category: string[];
+  gender: string[];
   price: number;
   primaryImageUrl: string;
   secondaryImageUrl: string;
@@ -67,4 +67,9 @@ interface Orders {
     primaryImage: string;
     secondaryImage: string;
   };
+}
+
+interface HomeProductProps {
+  isNew: ProductProps[];
+  isPopular: ProductProps[];
 }

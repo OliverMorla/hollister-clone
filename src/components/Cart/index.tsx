@@ -19,7 +19,7 @@ const Cart = ({
   const cartDispatch = useDispatch();
 
   return (
-    <div className="flex flex-col bg-white fixed left-0 top-0 w-[400px] min-h-[500px] z-30 p-4">
+    <div className="flex flex-col bg-white fixed left-0 top-0 w-[400px] min-h-[500px] z-30 p-4 rounded-2xl">
       <div className="flex items-center justify-center">
         <h1 className="font-bold text-3xl text-center">Cart</h1>
         <FontAwesomeIcon

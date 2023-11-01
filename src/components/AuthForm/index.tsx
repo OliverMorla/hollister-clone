@@ -74,7 +74,7 @@ const AuthForm = ({
           {error}
         </p>
       )}
-      <div className="relative flex gap-4 justify-center w-full mb-1">
+      <div className="relative flex gap-6 justify-center w-full mb-1">
         <FontAwesomeIcon
           icon={faXmark}
           className="absolute right-0 hover:scale-125 cursor-pointer"

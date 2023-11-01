@@ -1,4 +1,5 @@
 import { loadStripe } from "@stripe/stripe-js";
+import { useSession } from "next-auth/react";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -21,44 +22,48 @@ const PaymentForm = ({
   color?: string;
   items?: CartItemsProps[];
 }) => {
+  const { data: session } = useSession();
   const handleCheckout = async () => {
     const stripe = await stripePromise;
-    
-    if (
-      product_id !== "" &&
-      quantity !== 0 &&
-      price !== 0 &&
-      name !== "" &&
-      size !== "" &&
-      color !== ""
-    ) {
-      const res = await fetch("/api/checkout-sessions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          product_id,
-          quantity,
-          price,
-          name,
-          size,
-          items,
-          color,
-        }),
-      });
-
-      const { sessionId, ok, message } = await res.json();
-
-      if (!ok) {
-        alert(message);
-      } else {
-        const session = await stripe?.redirectToCheckout({
-          sessionId,
+    if (session?.user) {
+      if (
+        product_id !== "" &&
+        quantity !== 0 &&
+        price !== 0 &&
+        name !== "" &&
+        size !== "" &&
+        color !== ""
+      ) {
+        const res = await fetch("/api/checkout-sessions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_id,
+            quantity,
+            price,
+            name,
+            size,
+            items,
+            color,
+          }),
         });
+
+        const { sessionId, ok, message } = await res.json();
+
+        if (!ok) {
+          alert(message);
+        } else {
+          const session = await stripe?.redirectToCheckout({
+            sessionId,
+          });
+        }
+      } else {
+        alert("Please make sure you have selected a product and a size");
       }
     } else {
-      alert ("Please make sure you have selected a product and a size")
+      alert("Please sign in to continue");
     }
   };
 
