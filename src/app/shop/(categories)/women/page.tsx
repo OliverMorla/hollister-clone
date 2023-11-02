@@ -9,8 +9,8 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from "@/components/Product/Card";
-import "./page.scss";
 import { useSearchParams } from "next/navigation";
+import "./page.scss";
 
 const Women = () => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
@@ -63,9 +63,6 @@ const Women = () => {
   useEffect(() => {
     getProducts();
   }, []);
-
-  console.log(categories);
-  console.log(currentCategory);
 
   return (
     <main className="shop">
@@ -126,12 +123,8 @@ const Women = () => {
       </aside>
       <section className="shop__content">
         <section className="shop__content-header">
-          <h3 className="shop__content-header__title">Men's Clothing</h3>
-          <select
-            name="sort-by"
-            id=""
-            className="shop__content-header__options"
-          >
+          <h3 className="shop__content-header__title">Women's Clothing</h3>
+          <select name="sort-by" className="shop__content-header__options">
             <option value="featured">Featured</option>
             <option value="newest">Newest</option>
             <option value="best-selling">Best Selling</option>
@@ -141,7 +134,6 @@ const Women = () => {
         </section>
         <section className="shop__content-body">
           {products?.map((product) => {
-            console.log(product);
             if (
               currentCategory &&
               product.category.includes(currentCategory.toLowerCase())

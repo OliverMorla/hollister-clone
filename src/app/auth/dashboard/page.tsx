@@ -54,9 +54,6 @@ const Dashboard = () => {
     getOrders();
   }, []);
 
-  console.log(orders);
-  console.log(user);
-
   return (
     <main className="flex h-full w-full justify-center items center flex-col">
       {!user ? (
@@ -116,7 +113,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                           <span className="font-bold">Order Date:</span>{" "}
-                          {new Date (order.order_date).toLocaleTimeString()}
+                          {new Date(order.order_date).toLocaleTimeString()}
                         </div>
                         <div>
                           <span className="font-bold">Total Quantity:</span>{" "}

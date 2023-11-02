@@ -9,8 +9,8 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from "@/components/Product/Card";
-import "./page.scss";
 import { useSearchParams } from "next/navigation";
+import "./page.scss";
 
 const Men = () => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
@@ -63,9 +63,6 @@ const Men = () => {
   useEffect(() => {
     getProducts();
   }, []);
-
-  console.log(categories);
-  console.log(currentCategory);
 
   return (
     <main className="shop">

@@ -4,6 +4,10 @@
   display: flex;
   max-width: 1568px;
   margin: 20px auto;
+
+  @include sm-down {
+    margin: 20px 40px;
+  }
   .shop__left-panel {
     display: flex;
     flex-direction: column;
@@ -76,7 +80,13 @@
       display: flex;
       gap: 14px;
       margin-left: 40px;
+      justify-content: center;
       flex-flow: row wrap;
+
+      @include sm-down {
+        align-items: center;
+        flex-direction: column;
+      }
     }
 
     .shop__content-footer {
