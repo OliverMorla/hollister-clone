@@ -31,6 +31,7 @@ interface CartItemsProps {
   name: string;
   quantity: number;
   size: string;
+  color: string;
   cartPhoto: string;
 }
 

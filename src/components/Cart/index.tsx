@@ -16,6 +16,8 @@ const Cart = ({
   const cart: CartItemsProps[] = useSelector(
     (state: any) => state.cartReducer.items
   );
+
+  console.log(cart)
   const cartDispatch = useDispatch();
 
   return (

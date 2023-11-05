@@ -32,7 +32,8 @@ const PaymentForm = ({
         price !== 0 &&
         name !== "" &&
         size !== "" &&
-        color !== ""
+        color !== "" &&
+        items === undefined
       ) {
         const res = await fetch("/api/checkout-sessions", {
           method: "POST",
@@ -45,7 +46,6 @@ const PaymentForm = ({
             price,
             name,
             size,
-            items,
             color,
           }),
         });
@@ -59,11 +59,31 @@ const PaymentForm = ({
             sessionId,
           });
         }
+      } else if (items) {
+        const res = await fetch("/api/checkout-sessions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            items,
+          }),
+        });
+
+        const { sessionId, ok, message } = await res.json();
+
+        if (!ok) {
+          alert(message);
+        } else {
+          const session = await stripe?.redirectToCheckout({
+            sessionId,
+          });
+        }
       } else {
-        alert("Please make sure you have selected a product and a size");
+        alert("Please select a product to continue");
       }
     } else {
-      alert("Please sign in to continue");
+      alert("Please login to continue");
     }
   };
 

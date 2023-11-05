@@ -105,6 +105,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 metadata: {
                   size: item.size,
                   name: item.name,
+                  color: item.color,
                   quantity: item.quantity,
                   price: item.price,
                   user_email: user.email!,
@@ -127,6 +128,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           metadata: {
             name: name,
             quantity: quantity,
+            color: color,
             price: price,
             size: size,
             user_email: user.email!,
